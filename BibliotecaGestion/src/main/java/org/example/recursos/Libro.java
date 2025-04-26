@@ -3,6 +3,7 @@ package org.example.recursos;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.enums.EstadoLibro;
+
 @Data
 @NoArgsConstructor
 
@@ -19,5 +20,6 @@ public class Libro {
         this.titulo = titulo;
         this.autor = autor;
     }
+
 
 }
