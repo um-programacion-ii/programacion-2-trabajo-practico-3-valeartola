@@ -9,10 +9,10 @@ public class LibroTest {
 
     @Test
     public void testCrearLibroValido() {
-        Libro libro = new Libro("978-3-16-148410-0", "Clean Code", "Robert C. Martin");
-        assertEquals("978-3-16-148410-0", libro.getIsbn());
-        assertEquals("Clean Code", libro.getTitulo());
-        assertEquals("Robert C. Martin", libro.getAutor());
+        Libro libro = new Libro("978-950-49-7461-1", "Nosotros en la luna","Alice Kellen");
+        assertEquals("978-950-49-7461-1", libro.getIsbn());
+        assertEquals("Nosotros en la luna", libro.getTitulo());
+        assertEquals("Alice Kellen", libro.getAutor());
         assertEquals(EstadoLibro.DISPONIBLE, libro.getEstado());
     }
 
