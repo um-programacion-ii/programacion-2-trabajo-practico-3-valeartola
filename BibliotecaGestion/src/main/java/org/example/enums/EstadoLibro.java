@@ -1,6 +1,6 @@
 package org.example.enums;
 
-public enum EstadoLibros {
+public enum EstadoLibro {
     DISPONIBLE,
     PRESTADO
 }
