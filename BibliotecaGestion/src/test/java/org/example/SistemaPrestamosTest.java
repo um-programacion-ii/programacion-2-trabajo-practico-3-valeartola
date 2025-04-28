@@ -59,5 +59,5 @@ public class SistemaPrestamosTest {
         assertEquals(EstadoLibro.PRESTADO, libroPrestado.getEstado(), "El estado debería seguir siendo PRESTADO");
     }
 
-    
+
 }
