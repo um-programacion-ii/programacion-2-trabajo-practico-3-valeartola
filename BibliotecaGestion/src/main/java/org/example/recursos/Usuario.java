@@ -19,5 +19,5 @@ public class Usuario {
     public void agregarPrestamo(Prestamo prestamo) {
         historialPrestamos.add(prestamo);
     }
-    
+
 }
