@@ -10,6 +10,9 @@ public class GestionUsuarios {
     private List<Usuario> usuarios = new ArrayList<>();
 
     public void registrarUsuario(String nombre, String apellido) {
+        if (nombre == null || nombre.isEmpty() || apellido == null || apellido.isEmpty()) {
+            throw new IllegalArgumentException("El nombre y apellido no pueden estar vacíos.");
+        }
         usuarios.add(new Usuario(nombre, apellido));
     }
 
