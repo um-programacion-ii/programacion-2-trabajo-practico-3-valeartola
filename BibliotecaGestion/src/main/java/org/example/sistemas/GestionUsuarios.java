@@ -1,31 +1,33 @@
 package org.example.sistemas;
 
-import org.example.recursos.Prestamo;
 import org.example.recursos.Usuario;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GestionUsuarios {
-    private List<Usuario> usuarios = new ArrayList<>();
 
-    public void registrarUsuario(String nombre, String apellido) {
-        if (nombre == null || nombre.isEmpty() || apellido == null || apellido.isEmpty()) {
-            throw new IllegalArgumentException("El nombre y apellido no pueden estar vacíos.");
-        }
-        usuarios.add(new Usuario(nombre, apellido));
+    private Map<String, Usuario> usuarios;
+
+    public GestionUsuarios() {
+        this.usuarios = new HashMap<>();
     }
 
-    public List<Usuario> obtenerTodosLosUsuarios() {
-        return new ArrayList<>(usuarios); // copia para no modificar la lista original
+    public void registrarUsuario(Usuario usuario) {
+        String clave = usuario.getNombre() + " " + usuario.getApellido();
+        usuarios.put(clave, usuario);
     }
 
-    public Usuario buscarUsuarioPorNombreYApellido(String nombre, String apellido) {
-        return usuarios.stream()
-                .filter(usuario -> usuario.getNombre().equalsIgnoreCase(nombre) &&
-                        usuario.getApellido().equalsIgnoreCase(apellido))
-                .findFirst()
-                .orElse(null);
+    // Buscar usuario usando nombre y apellido
+    public Usuario buscarUsuarioPorNombreyApellido(String nombre, String apellido) {
+        String clave = nombre + " " + apellido; // Concatenamos para la búsqueda
+        return usuarios.get(clave);
+    }
+
+    // Verificar si un usuario existe usando nombre y apellido
+    public boolean existeUsuario(String nombre, String apellido) {
+        String clave = nombre + " " + apellido;
+        return usuarios.containsKey(clave);
     }
 
 }
