@@ -1,55 +1,71 @@
 package org.example;
 
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.example.recursos.Usuario;
 import org.example.sistemas.GestionUsuarios;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-public class GestionUsuariosTest {
+class GestionUsuariosTest {
 
     @Mock
     private Usuario usuarioMock;
 
+    @InjectMocks
     private GestionUsuarios gestionUsuarios;
 
     @BeforeEach
-    void setUp() { // No debe ser "public"
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         gestionUsuarios = new GestionUsuarios();
     }
 
     @Test
     void testRegistrarUsuario() {
-        gestionUsuarios.registrarUsuario("Maria", "Artola");
+        when(usuarioMock.getNombre()).thenReturn("Juan");
+        when(usuarioMock.getApellido()).thenReturn("Pérez");
 
-        List<Usuario> usuarios = gestionUsuarios.obtenerTodosLosUsuarios();
-        assertEquals(1, usuarios.size());
-        assertEquals("Maria", usuarios.get(0).getNombre());
+        gestionUsuarios.registrarUsuario(usuarioMock);
+
+        assertTrue(gestionUsuarios.existeUsuario("Juan", "Pérez")); // Verifica que el usuario se registró correctamente
     }
 
     @Test
-    void testBuscarUsuarioMock() {
-        when(usuarioMock.getNombre()).thenReturn("Mauro");
-        when(usuarioMock.getApellido()).thenReturn("Codina");
+    void testBuscarUsuarioExistente() {
+        Usuario usuario = new Usuario("Maria", "Artola");
+        gestionUsuarios.registrarUsuario(usuario);
 
-        gestionUsuarios.registrarUsuario("Mauro", "Codina");
-        Usuario encontrado = gestionUsuarios.buscarUsuarioPorNombreYApellido("Mauro", "Codina");
+        Usuario usuarioEncontrado = gestionUsuarios.buscarUsuarioPorNombreyApellido("Maria", "Artola");
 
-        assertNotNull(encontrado);
-        assertEquals("Carlos", encontrado.getNombre());
+        assertNotNull(usuarioEncontrado);
+        assertEquals("Maria", usuarioEncontrado.getNombre());
+        assertEquals("Artola", usuarioEncontrado.getApellido());
     }
 
     @Test
-    void testRegistrarUsuarioNombreVacio() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            gestionUsuarios.registrarUsuario("", "Artola");
-        });
+    void testRegistrarYBuscarUsuario() {
+        when(usuarioMock.getNombre()).thenReturn("Pedro");
+        when(usuarioMock.getApellido()).thenReturn("Gómez");
+
+        gestionUsuarios.registrarUsuario(usuarioMock);
+
+        verify(usuarioMock).getNombre();
+        verify(usuarioMock).getApellido();
+
+        assertTrue(gestionUsuarios.existeUsuario("Pedro", "Gómez"));
+        assertNotNull(gestionUsuarios.buscarUsuarioPorNombreyApellido("Pedro", "Gómez"));
     }
+
+    @Test
+    void testBuscarUsuarioInexistente() {
+        Usuario usuarioEncontrado = gestionUsuarios.buscarUsuarioPorNombreyApellido("Carlos", "Lopez");
+        assertNull(usuarioEncontrado); // No debería encontrar a un usuario que no se registró
+    }
+
 }
+
